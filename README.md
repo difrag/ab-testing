@@ -43,7 +43,12 @@ ab-testing/
   src/            Reusable Python helper functions
 ```
 
-## Data Source
+
+## Final Deliverables
+
+- Final decision memo: `reports/decision_memo.md`
+- Final report figures: `reports/figures/final_*.png`
+- Main analysis notebooks: `notebooks/01_data_audit.ipynb` through `notebooks/04_decision_memo_figures.ipynb``r`n`r`n## Data Source
 
 - Dataset description: https://blog.minethatdata.com/2008/03/minethatdata-e-mail-analytics-and-data.html
 - CSV source: http://www.minethatdata.com/Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv
