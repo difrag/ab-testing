@@ -31,7 +31,7 @@ $KernelSpec = @{
 $KernelPath = Join-Path $KernelDir "kernel.json"
 [System.IO.File]::WriteAllText($KernelPath, $KernelSpec, [System.Text.UTF8Encoding]::new($false))
 
-& "$ProjectRoot\.venv\Scripts\jupyter-nbconvert.exe" `
+& "$ProjectRoot\.venv\Scripts\python.exe" -m nbconvert `
     --to notebook `
     --execute `
     --inplace `
