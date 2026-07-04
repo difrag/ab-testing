@@ -6,6 +6,16 @@ The goal is not to recreate every notebook. The Tableau dashboard should communi
 
 > Mens E-Mail produced the strongest conversion lift, spend lift, and estimated revenue impact. It should be prioritized for a staged targeted rollout.
 
+
+## Packaged Workbook
+
+The completed Tableau workbook is saved as:
+
+```text
+ab_testing_campaign_dashboard.twbx
+```
+
+Use the `.twbx` file when sharing the dashboard because it packages the workbook with its data sources.
 ## Files to Use
 
 Use the CSV files in `tableau/data/`:

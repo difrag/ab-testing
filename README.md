@@ -27,7 +27,7 @@ Womens E-Mail also improved performance, but the effect was smaller: about **+$4
 
 - Final decision memo: [`reports/decision_memo.md`](reports/decision_memo.md)
 - Final figures: [`reports/figures/`](reports/figures)
-- Tableau dashboard guide and CSV extracts: [`tableau/`](tableau/)
+- Tableau workbook, guide, and CSV extracts: [`tableau/`](tableau/)
 - Main notebooks:
   - [`01_data_audit.ipynb`](notebooks/01_data_audit.ipynb)
   - [`02_experiment_analysis.ipynb`](notebooks/02_experiment_analysis.ipynb)

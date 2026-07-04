@@ -19,3 +19,4 @@ reports/figures/*
 *.sqlite
 *.db
 *.log
+*.twbr
