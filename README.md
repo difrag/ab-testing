@@ -1,32 +1,83 @@
 # A/B Testing Case Study: Lifecycle Campaign Impact
 
-This project analyzes a real randomized marketing experiment from the MineThatData E-Mail Analytics challenge. The portfolio framing is a SaaS/product analytics case study: should a company send a lifecycle/trial-nurture campaign to users to increase visits, paid conversion, and revenue?
+This project analyzes a real randomized email campaign experiment and turns it into a product analytics decision memo. The business question is simple:
 
-Important note: the original dataset comes from a retail e-mail campaign test with Mens E-Mail, Womens E-Mail, and No E-Mail groups. We will keep that context transparent, then translate the decision-making logic to a SaaS lifecycle campaign scenario.
+> Should the company roll out a lifecycle campaign, and if so, which customers should receive it?
+
+The analysis evaluates campaign lift, statistical significance, revenue impact, and segment-level targeting opportunities using Python, pandas, and standard A/B testing methods.
+
+## Key Result
+
+**Recommendation: prioritize Mens E-Mail for rollout analysis, using a staged targeted rollout.**
+
+Mens E-Mail was the strongest treatment overall:
+
+| Metric | Mens E-Mail Result |
+|---|---:|
+| Control conversion rate | 0.57% |
+| Treatment conversion rate | 1.25% |
+| Absolute conversion lift | +0.68 percentage points |
+| Relative conversion lift | +118.8% |
+| Spend lift | +$0.77 per customer |
+| Estimated revenue impact | +$76,983 per 100k targeted customers |
+
+Womens E-Mail also improved performance, but the effect was smaller: about **+$42,441 per 100k targeted customers**.
+
+## Final Deliverables
+
+- Final decision memo: [`reports/decision_memo.md`](reports/decision_memo.md)
+- Final figures: [`reports/figures/`](reports/figures)
+- Main notebooks:
+  - [`01_data_audit.ipynb`](notebooks/01_data_audit.ipynb)
+  - [`02_experiment_analysis.ipynb`](notebooks/02_experiment_analysis.ipynb)
+  - [`03_segment_uplift_analysis.ipynb`](notebooks/03_segment_uplift_analysis.ipynb)
+  - [`04_decision_memo_figures.ipynb`](notebooks/04_decision_memo_figures.ipynb)
+
+## Portfolio Framing
+
+The original dataset comes from the MineThatData E-Mail Analytics challenge, a retail email experiment with three randomized groups: `No E-Mail`, `Mens E-Mail`, and `Womens E-Mail`.
+
+For portfolio purposes, I frame the work as a lifecycle/product analytics case study similar to a SaaS trial-nurture decision. The source context remains transparent: this is not literal SaaS free-trial data. The project demonstrates how to structure an A/B testing analysis, interpret lift, estimate business impact, and communicate a recommendation.
 
 ## Business Question
 
-Should the company roll out an outbound lifecycle campaign, and if so, which customer segments should receive it?
+Should the company send a lifecycle campaign to customers, and should the campaign be rolled out broadly or targeted to specific segments?
 
-## Planned Analysis
+The final recommendation considers:
 
-1. Validate the raw data and document data quality issues.
-2. Compare control vs treatment groups on visit rate, conversion rate, and spend per customer.
-3. Estimate incremental lift and statistical uncertainty.
-4. Analyze whether treatment effects vary by customer segment.
-5. Write a decision memo with a clear ship/do-not-ship/segment recommendation.
+- conversion lift
+- spend per customer lift
+- estimated revenue impact
+- customer segment performance
+- risks and caveats
 
-## Data Audit
+## Analysis Workflow
 
-The first notebook, `01_data_audit.ipynb`, establishes whether the dataset is reliable enough for experiment analysis. Before estimating lift or running statistical tests, I validate the raw data, confirm the experiment groups, check for missing values, review category labels, and assess whether the randomized groups are balanced before treatment.
+| Notebook | Purpose |
+|---|---|
+| `01_data_audit.ipynb` | Validate the raw dataset, check missing values, document category issues, and confirm randomization balance. |
+| `02_experiment_analysis.ipynb` | Run the formal A/B test: group metrics, lift, confidence intervals, p-values, and revenue impact. |
+| `03_segment_uplift_analysis.ipynb` | Explore whether treatment effects differ across customer segments and identify targeting opportunities. |
+| `04_decision_memo_figures.ipynb` | Create final report figures and a concise recommendation summary table. |
 
-The audit starts from the untouched raw CSV in `data/raw/`. This keeps the source data reproducible and separate from any cleaned or analysis-ready files. The notebook confirms that the dataset contains 64,000 rows, 12 original columns, no missing values, and three experiment groups: `No E-Mail`, `Mens E-Mail`, and `Womens E-Mail`.
+## Methodology Summary
 
-During the category review, I identify a spelling issue in the raw `zip_code` field: `Surburban` appears instead of `Suburban`. Rather than editing the raw file, I create a cleaned working dataset in `data/interim/email_ab_test_clean.csv` and add helper fields such as `zip_code_clean`, `is_treatment`, and `campaign_type`.
+The project starts by preserving the raw data in `data/raw/` and creating cleaned working files only in ignored intermediate folders. The data audit confirms that the experiment has **64,000 customers**, no missing values, balanced assignment across groups, and strong pre-treatment balance.
 
-The notebook also checks experiment group sizes and pre-treatment balance. In an A/B test, randomization is what makes the control and treatment groups comparable. If the groups look similar before the campaign, then differences observed after the campaign are more credible as treatment effects. I use standardized mean differences for numeric pre-treatment variables such as recency, prior spend, prior Mens/Womens purchase indicators, and new-customer status. The largest standardized mean difference is below 0.01, well under the common 0.10 rule-of-thumb threshold, which supports moving forward with formal experiment analysis.
+The primary metric is **conversion rate**. Secondary metrics include **visit rate**, **spend per customer**, and **estimated incremental revenue**. Conversion and visit outcomes are tested with two-proportion z-tests. Spend per customer is evaluated with bootstrap confidence intervals because spend is zero-inflated and skewed.
 
-This audit answers the question: can the dataset be trusted for an A/B test? In this case, the answer is yes. The file loads correctly, the randomized groups are evenly distributed, the raw data is preserved, and the pre-treatment balance checks do not show meaningful imbalance.
+Segment analysis is treated as exploratory. It helps shape a targeting recommendation, but the overall randomized experiment remains the strongest evidence for whether the campaign worked.
+
+## Final Recommendation
+
+Mens E-Mail should be prioritized because it produced the highest conversion lift, highest spend lift, and largest estimated revenue impact.
+
+The best rollout path is staged:
+
+1. Start with high-opportunity segments such as new customers, web-channel customers, recent customers, and prior Mens-only customers.
+2. Monitor conversion, revenue, unsubscribe behavior, customer complaints, and repeat purchase.
+3. Use Womens E-Mail selectively for segments where it appears more relevant, especially customers with prior Womens affinity.
+4. Run a follow-up targeting test to confirm whether segmented messaging outperforms a broad Mens E-Mail rollout.
 
 ## Project Structure
 
@@ -34,21 +85,16 @@ This audit answers the question: can the dataset be trusted for an A/B test? In 
 ab-testing/
   data/
     raw/          Original downloaded dataset
-    interim/      Cleaned or lightly transformed working files
-    processed/    Final analysis-ready tables
-  docs/           Experiment design, data dictionary, analysis plan
-  notebooks/      Exploratory and final analysis notebooks
-  reports/        Final decision memo and exported visuals
-  sql/            Optional SQL versions of analysis queries
+    interim/      Cleaned working files, ignored by Git
+    processed/    Generated analysis outputs, ignored by Git
+  docs/           Experiment design, data dictionary, setup notes
+  notebooks/      Analysis notebooks
+  reports/        Final decision memo and report figures
+  sql/            Optional SQL analysis starter
   src/            Reusable Python helper functions
 ```
 
-
-## Final Deliverables
-
-- Final decision memo: `reports/decision_memo.md`
-- Final report figures: `reports/figures/final_*.png`
-- Main analysis notebooks: `notebooks/01_data_audit.ipynb` through `notebooks/04_decision_memo_figures.ipynb``r`n`r`n## Data Source
+## Data Source
 
 - Dataset description: https://blog.minethatdata.com/2008/03/minethatdata-e-mail-analytics-and-data.html
 - CSV source: http://www.minethatdata.com/Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv
@@ -61,19 +107,26 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-The helper scripts create a local Jupyter kernel named `Python (ab-testing)`.
-
-To start JupyterLab:
+Start JupyterLab:
 
 ```powershell
 .\scripts\start_jupyter.ps1
 ```
 
-See `docs/setup_jupyter.md` for full setup notes.
+Rerun a notebook:
 
-## Suggested Notebook Flow
+```powershell
+.\scripts\execute_notebook.ps1 notebooks\02_experiment_analysis.ipynb
+```
 
-1. `01_data_audit.ipynb`
-2. `02_experiment_analysis.ipynb`
-3. `03_segment_uplift_analysis.ipynb`
-4. `04_decision_memo_figures.ipynb`
+The helper scripts create a local Jupyter kernel named `Python (ab-testing)`. See [`docs/setup_jupyter.md`](docs/setup_jupyter.md) for setup details.
+
+## Tools Used
+
+- Python
+- pandas
+- NumPy
+- SciPy
+- Matplotlib
+- Jupyter Notebook
+- Git/GitHub
