@@ -15,6 +15,7 @@ data/processed/*
 reports/figures/*
 !reports/figures/.gitkeep
 !reports/figures/final_*.png
+!reports/figures/readme_dashboard_preview.png
 
 *.sqlite
 *.db

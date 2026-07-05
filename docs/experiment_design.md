@@ -9,18 +9,20 @@ The MineThatData challenge describes a randomized e-mail campaign experiment:
 - One third received no e-mail.
 - Customer behavior was tracked for two weeks after the campaign.
 
-## Portfolio Framing
+## Project Context
 
-We can present the work as a product analytics decision memo about lifecycle messaging:
+This project uses the public retail marketing experiment as a product analytics case study about lifecycle messaging. The decision problem is whether a campaign should be rolled out, which treatment should be prioritized, and which customer segments should be targeted first.
 
-> A SaaS company wants to know whether sending a trial-nurture campaign improves activation and paid conversion, and whether the campaign should be targeted to specific customer segments.
-
-This is an analogy, not a claim that the source data is literally SaaS trial data. The final write-up should state that the dataset is a public retail marketing experiment used to demonstrate A/B testing and business decision-making methods.
+The source context remains transparent: this is a retail marketing experiment, not literal SaaS free-trial data. The analytical structure is still relevant to product and growth analytics because it includes randomized assignment, a control group, conversion outcomes, spend outcomes, and segment-level rollout decisions.
 
 ## Unit of Randomization
 
-The unit is the customer. Each row represents one customer assigned to exactly one campaign segment.
+The unit of randomization is the customer. Each row represents one customer assigned to exactly one campaign group.
+
+## Primary Decision Metric
+
+The primary metric is conversion rate. A treatment is more attractive when it improves conversion while also increasing spend per customer and estimated incremental revenue.
 
 ## Key Risk
 
-The dataset is old and from retail, so the strongest portfolio angle is not modern domain novelty. The strength is the quality of the experiment design: randomized groups, a real control, revenue outcomes, and segmentation opportunities.
+Segment findings are exploratory. They are useful for prioritizing a staged rollout, but they should be validated with a follow-up targeting test before being treated as final personalization rules.
