@@ -2,7 +2,7 @@
 
 This project analyzes a randomized e-mail campaign experiment and translates the results into a business recommendation. The goal is to decide whether a lifecycle campaign should be rolled out, which treatment performs best, and which customer segments offer the strongest revenue opportunity.
 
-![A/B Testing Campaign Impact dashboard preview](reports/figures/readme_dashboard_preview.png)
+![A/B Testing Campaign Impact dashboard preview](reports/figures/dashboard_preview.png)
 
 ## Executive Summary
 
