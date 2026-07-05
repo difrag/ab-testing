@@ -118,3 +118,7 @@ The startup script registers a local Jupyter kernel named `Python (ab-testing)`.
 ## Tools
 
 Python, pandas, NumPy, SciPy, Matplotlib, Jupyter Notebook, Tableau, Git, and GitHub.
+
+## License
+
+The analysis code and documentation in this repository are licensed under the MIT License. See [`LICENSE`](LICENSE). The source dataset remains credited to MineThatData.
